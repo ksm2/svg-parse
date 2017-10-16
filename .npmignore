@@ -1,4 +1,5 @@
 /.idea/
+.editorconfig
 svg.pegjs
 .gitignore
 *.iml
