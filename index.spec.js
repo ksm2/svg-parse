@@ -69,6 +69,13 @@ describe('SVG path', () => {
     ]);
   });
 
+  it('contains C', () => {
+    expect(parse('M10 10 C20 20, 40 20, 50 10')).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
+      { type: 'curveTo', props: { relative: false, x1: 20, y1: 20, x2: 40, y2: 20, x: 50, y: 10 } },
+    ]);
+  });
+
   it('contains Z', () => {
     expect(parse('M0 0 Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },

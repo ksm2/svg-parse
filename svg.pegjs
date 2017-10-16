@@ -23,11 +23,16 @@ SVGPath
   }
 
 LineCommand
-  = MoveTo / LineTo / Horizontal / Vertical
+  = MoveTo / CurveTo / LineTo / Horizontal / Vertical
 
 MoveTo
   = _ op:("M" / "m") _ x:Number _ y:Number {
     return operate("moveTo", op, { x, y });
+  }
+
+CurveTo
+  = _ op:"C" _ x1:Number _ y1:Number _ "," _ x2:Number _ y2:Number _ "," _ x:Number _ y:Number {
+    return operate("curveTo", op, { x1, y1, x2, y2, x, y });
   }
 
 LineTo
