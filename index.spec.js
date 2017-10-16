@@ -83,6 +83,22 @@ describe('SVG path', () => {
     ]);
   });
 
+  it('contains S', () => {
+    expect(parse('M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80')).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
+      { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
+      { type: 'smoothTo', props: { relative: false, x2: 150, y2: 150, x: 180, y: 80 } },
+    ]);
+  });
+
+  it('contains s', () => {
+    expect(parse('M10 80 C 40 10, 65 10, 95 80 s 150 150, 180 80')).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
+      { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
+      { type: 'smoothTo', props: { relative: true, x2: 150, y2: 150, x: 180, y: 80 } },
+    ]);
+  });
+
   it('contains Z', () => {
     expect(parse('M0 0 Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
