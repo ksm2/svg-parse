@@ -4,14 +4,13 @@
 // Accepts expressions like "M80 90 Z" and computes their value.
 
 {
-  // Init ...
   function isLowerCase(str) {
     return str.toLocaleLowerCase() === str;
   }
 
-  function addAttrs(obj, attrs) {
-    Object.assign(obj.props, attrs);
-    return obj;
+  function operate(type, op, props) {
+    props.relative = isLowerCase(op);
+    return { type, props };
   }
 }
 
@@ -24,56 +23,36 @@ SVGPath
   }
 
 LineCommand
-  = LineToCommand / HorizontalCommand / VerticalCommand
+  = LineTo / Horizontal / Vertical
 
 MoveToCommand
-  = _ op:MoveToOp _ x:Number _ y:Number {
-    return addAttrs(op, { x, y });
+  = _ op:("M" / "m") _ x:Number _ y:Number {
+    return operate("moveTo", op, { x, y });
   }
 
-LineToCommand
-  = _ op:LineToOp _ x:Number _ y:Number {
-    return addAttrs(op, { x, y });
+LineTo
+  = _ op:("L" / "l") _ x:Number _ y:Number {
+    return operate("lineTo", op, { x, y });
   }
 
-HorizontalCommand
-  = _ op:HorizontalOp _ x:Number {
-    return addAttrs(op, { x });
+Horizontal
+  = _ op:("H" / "h") _ x:Number {
+    return operate("horizontal", op, { x });
   }
 
-VerticalCommand
-  = _ op:VerticalOp _ y:Number {
-    return addAttrs(op, { y });
-  }
-
-Number "number"
-  = _ [0-9]+ {
-    return parseInt(text(), 10);
-  }
-
-MoveToOp
-  = ("M" / "m") {
-    return { type: "moveTo", props: { relative: isLowerCase(text()) } };
-  }
-
-LineToOp
-  = ("L" / "l") {
-    return { type: "lineTo", props: { relative: isLowerCase(text()) } };
-  }
-
-HorizontalOp
-  = ("H" / "h") {
-    return { type: "horizontal", props: { relative: isLowerCase(text()) } };
-  }
-
-VerticalOp
-  = ("V" / "v") {
-    return { type: "vertical", props: { relative: isLowerCase(text()) } };
+Vertical
+  = _ op:("V" / "v") _ y:Number {
+    return operate("vertical", op, { y });
   }
 
 CloseOp
   = ("Z" / "z") {
     return { type: "close", props: null };
+  }
+
+Number "number"
+  = _ [0-9]+ {
+    return parseInt(text(), 10);
   }
 
 _ "whitespace"
