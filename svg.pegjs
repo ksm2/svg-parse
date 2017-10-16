@@ -15,7 +15,7 @@
 }
 
 SVGPath
-  = _ head:MoveToCommand _ tail:LineCommand* _ end:(CloseOp _)? {
+  = _ head:MoveTo _ tail:LineCommand* _ end:(CloseOp _)? {
     if (end) {
       tail = tail.concat(end[0]);
     }
@@ -23,9 +23,9 @@ SVGPath
   }
 
 LineCommand
-  = LineTo / Horizontal / Vertical
+  = MoveTo / LineTo / Horizontal / Vertical
 
-MoveToCommand
+MoveTo
   = _ op:("M" / "m") _ x:Number _ y:Number {
     return operate("moveTo", op, { x, y });
   }

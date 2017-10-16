@@ -10,6 +10,12 @@ describe('SVG path', () => {
     expect(parse('M23 42')).eql([
       { type: 'moveTo', props: { relative: false, x: 23, y: 42 } },
     ]);
+    expect(parse('M0 0 L12 13 M14 15 Z')).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 13 } },
+      { type: 'moveTo', props: { relative: false, x: 14, y: 15 } },
+      { type: 'close', props: null },
+    ]);
   });
 
   it('contains m', () => {
