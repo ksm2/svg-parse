@@ -72,7 +72,7 @@ VerticalOp
   }
 
 CloseOp
-  = "Z" {
+  = ("Z" / "z") {
     return { type: "close", props: null };
   }
 

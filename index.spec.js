@@ -70,4 +70,11 @@ describe('SVG path', () => {
     ]);
   });
 
+  it('contains z', () => {
+    expect(parse('M0 0 z')).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'close', props: null },
+    ]);
+  });
+
 });
