@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pegjs -o index.js svg.pegjs",
-    "test": "node test.js"
+    "test": "mocha index.spec.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   "homepage": "https://github.com/ksm2/svg-parse#readme",
   "devDependencies": {
     "@types/node": "^8.0.40",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
     "pegjs": "^0.10.0"
   }
 }
