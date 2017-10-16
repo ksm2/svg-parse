@@ -1,0 +1,30 @@
+{
+  "name": "svg-parse",
+  "version": "1.0.0",
+  "description": "Parses SVG paths to a consumable object and JSON",
+  "main": "index.js",
+  "scripts": {
+    "build": "pegjs -o index.js svg.pegjs",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ksm2/svg-parse.git"
+  },
+  "keywords": [
+    "SVG",
+    "JSON",
+    "parser",
+    "SVG paths"
+  ],
+  "author": "Konstantin Simon Maria Möllers <ksm.moellers@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ksm2/svg-parse/issues"
+  },
+  "homepage": "https://github.com/ksm2/svg-parse#readme",
+  "devDependencies": {
+    "@types/node": "^8.0.40",
+    "pegjs": "^0.10.0"
+  }
+}

@@ -1,0 +1,6 @@
+/.idea/
+tsconfig.json
+test.ts
+svg.pegjs
+.gitignore
+*.iml
