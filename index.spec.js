@@ -113,6 +113,22 @@ describe('SVG path', () => {
     ]);
   });
 
+  it('contains T', () => {
+    expect(parse('M10 80 Q 95 10, 180 80 T12 14')).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
+      { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
+      { type: 'tangentTo', props: { relative: false, x: 12, y: 14 } },
+    ]);
+  });
+
+  it('contains t', () => {
+    expect(parse('M10 80 Q 95 10, 180 80 t12 14')).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
+      { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
+      { type: 'tangentTo', props: { relative: true, x: 12, y: 14 } },
+    ]);
+  });
+
   it('contains Z', () => {
     expect(parse('M0 0 Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
