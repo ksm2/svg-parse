@@ -15,43 +15,40 @@
 }
 
 SVGPath
-  = _ head:MoveTo _ tail:LineCommand* _ end:(CloseOp _)? {
-    if (end) {
-      tail = tail.concat(end[0]);
-    }
+  = _ head:MoveTo _ tail:LineCommand* _ {
     return [head].concat(tail);
   }
 
 LineCommand
-  = MoveTo / CurveTo / SmoothTo / QuadraticTo / LineTo / TangentTo / Horizontal / Vertical / Arc
+  = MoveTo / CurveTo / SmoothTo / QuadraticTo / LineTo / TangentTo / Horizontal / Vertical / Arc / Close
 
 MoveTo
-  = _ op:("M" / "m") _ x:Number _ y:Number {
+  = _ op:("M" / "m") _ x:Number Comma y:Number {
     return operate("moveTo", op, { x, y });
   }
 
 CurveTo
-  = _ op:("C" / "c") _ x1:Number _ y1:Number Comma x2:Number _ y2:Number Comma x:Number _ y:Number {
+  = _ op:("C" / "c") _ x1:Number Comma y1:Number Comma x2:Number Comma y2:Number Comma x:Number Comma y:Number {
     return operate("curveTo", op, { x1, y1, x2, y2, x, y });
   }
 
 SmoothTo
-  = _ op:("S" / "s") _ x2:Number _ y2:Number Comma x:Number _ y:Number {
+  = _ op:("S" / "s") _ x2:Number Comma y2:Number Comma x:Number Comma y:Number {
     return operate("smoothTo", op, { x2, y2, x, y });
   }
 
 QuadraticTo
-  = _ op:("Q" / "q") _ x1:Number _ y1:Number Comma x:Number _ y:Number {
+  = _ op:("Q" / "q") _ x1:Number Comma y1:Number Comma x:Number Comma y:Number {
     return operate("quadraticTo", op, { x1, y1, x, y });
   }
 
 TangentTo
-  = _ op:("T" / "t") _ x:Number _ y:Number {
+  = _ op:("T" / "t") _ x:Number Comma y:Number {
     return operate("tangentTo", op, { x, y });
   }
 
 LineTo
-  = _ op:("L" / "l") _ x:Number _ y:Number {
+  = _ op:("L" / "l") _ x:Number Comma y:Number {
     return operate("lineTo", op, { x, y });
   }
 
@@ -66,12 +63,12 @@ Vertical
   }
 
 Arc
-  = _ op:("A" / "a") _ rx:Number _ ry:Number Comma xAxisRotation:Number Comma largeArcFlag:Boolean Comma sweepFlag:Boolean Comma x:Number _ y:Number {
+  = _ op:("A" / "a") _ rx:Number Comma ry:Number Comma xAxisRotation:Number Comma largeArcFlag:Boolean Comma sweepFlag:Boolean Comma x:Number Comma y:Number {
     return operate("arc", op, { rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y });
   }
 
-CloseOp
-  = ("Z" / "z") {
+Close
+  = _ ("Z" / "z") {
     return { type: "close", props: null };
   }
 
