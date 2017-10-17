@@ -1,6 +1,6 @@
 {
   "name": "svg-parse",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Parses SVG paths to a consumable object and JSON",
   "main": "index.js",
   "scripts": {
