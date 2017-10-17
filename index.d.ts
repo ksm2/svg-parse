@@ -6,6 +6,10 @@ export interface Command<T extends keyof OperatorMap> {
 export interface OperatorMap {
     moveTo: XYRelative
     lineTo: XYRelative
+    curveTo: CurveTo
+    smoothTo: SmoothTo
+    quadraticTo: QuadraticTo
+    tangentTo: XYRelative
     horizontal: XRelative
     vertical: YRelative
     close: null
@@ -18,6 +22,19 @@ export interface Relative {
 export interface XYRelative extends Relative {
     x: number
     y: number
+}
+
+export interface QuadraticTo extends XYRelative {
+    x1: number
+    y1: number
+}
+
+export interface SmoothTo extends XYRelative {
+    x2: number
+    y2: number
+}
+
+export interface CurveTo extends QuadraticTo, SmoothTo {
 }
 
 export interface XRelative extends Relative {
