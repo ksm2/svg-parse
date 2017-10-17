@@ -31,17 +31,17 @@ MoveTo
   }
 
 CurveTo
-  = _ op:("C" / "c") _ x1:Number _ y1:Number _ "," _ x2:Number _ y2:Number _ "," _ x:Number _ y:Number {
+  = _ op:("C" / "c") _ x1:Number _ y1:Number Comma x2:Number _ y2:Number Comma x:Number _ y:Number {
     return operate("curveTo", op, { x1, y1, x2, y2, x, y });
   }
 
 SmoothTo
-  = _ op:("S" / "s") _ x2:Number _ y2:Number _ "," _ x:Number _ y:Number {
+  = _ op:("S" / "s") _ x2:Number _ y2:Number Comma x:Number _ y:Number {
     return operate("smoothTo", op, { x2, y2, x, y });
   }
 
 QuadraticTo
-  = _ op:("Q" / "q") _ x1:Number _ y1:Number _ "," _ x:Number _ y:Number {
+  = _ op:("Q" / "q") _ x1:Number _ y1:Number Comma x:Number _ y:Number {
     return operate("quadraticTo", op, { x1, y1, x, y });
   }
 
@@ -66,7 +66,7 @@ Vertical
   }
 
 Arc
-  = _ op:("A" / "a") _ rx:Number _ ry:Number _ xAxisRotation:Number _ largeArcFlag:Number _ sweepFlag:Number _ x:Number _ y:Number {
+  = _ op:("A" / "a") _ rx:Number _ ry:Number Comma xAxisRotation:Number Comma largeArcFlag:Number Comma sweepFlag:Number Comma x:Number _ y:Number {
     return operate("arc", op, { rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y });
   }
 
@@ -78,6 +78,11 @@ CloseOp
 Number "number"
   = _ "-"? [0-9]+ ("." [0-9]+)? {
     return parseFloat(text());
+  }
+
+Comma "comma"
+  = _ ","? _ {
+    return '';
   }
 
 _ "whitespace"
