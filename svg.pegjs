@@ -23,7 +23,7 @@ SVGPath
   }
 
 LineCommand
-  = MoveTo / CurveTo / SmoothTo / LineTo / Horizontal / Vertical
+  = MoveTo / CurveTo / SmoothTo / QuadraticTo / LineTo / Horizontal / Vertical
 
 MoveTo
   = _ op:("M" / "m") _ x:Number _ y:Number {
@@ -38,6 +38,11 @@ CurveTo
 SmoothTo
   = _ op:("S" / "s") _ x2:Number _ y2:Number _ "," _ x:Number _ y:Number {
     return operate("smoothTo", op, { x2, y2, x, y });
+  }
+
+QuadraticTo
+  = _ op:("Q" / "q") _ x1:Number _ y1:Number _ "," _ x:Number _ y:Number {
+    return operate("quadraticTo", op, { x1, y1, x, y });
   }
 
 LineTo
