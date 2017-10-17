@@ -66,7 +66,7 @@ Vertical
   }
 
 Arc
-  = _ op:("A" / "a") _ rx:Number _ ry:Number Comma xAxisRotation:Number Comma largeArcFlag:Number Comma sweepFlag:Number Comma x:Number _ y:Number {
+  = _ op:("A" / "a") _ rx:Number _ ry:Number Comma xAxisRotation:Number Comma largeArcFlag:Boolean Comma sweepFlag:Boolean Comma x:Number _ y:Number {
     return operate("arc", op, { rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y });
   }
 
@@ -78,6 +78,11 @@ CloseOp
 Number "number"
   = _ "-"? [0-9]+ ("." [0-9]+)? {
     return parseFloat(text());
+  }
+
+Boolean "boolean"
+  = _ [01] {
+    return parseInt(text(), 2) > 0;
   }
 
 Comma "comma"

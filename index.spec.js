@@ -160,9 +160,9 @@ describe('SVG path', () => {
     `)).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 315} },
       { type: 'lineTo', props: { relative: false, x: 110, y: 215} },
-      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: 0, sweepFlag: 1, x: 162.55, y: 162.45 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: false, sweepFlag: true, x: 162.55, y: 162.45 } },
       { type: 'lineTo', props: { relative: false, x: 172.55, y: 152.45 } },
-      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: 0, sweepFlag: 1, x: 215.1, y: 109.9 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: false, sweepFlag: true, x: 215.1, y: 109.9 } },
       { type: 'lineTo', props: { relative: false, x: 315, y: 10 } },
     ]);
     expect(parse(`
@@ -175,9 +175,9 @@ describe('SVG path', () => {
     `)).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 315} },
       { type: 'lineTo', props: { relative: false, x: 110, y: 215} },
-      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: 0, sweepFlag: 1, x: 162.55, y: 162.45 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: false, sweepFlag: true, x: 162.55, y: 162.45 } },
       { type: 'lineTo', props: { relative: false, x: 172.55, y: 152.45 } },
-      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: 0, sweepFlag: 1, x: 215.1, y: 109.9 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: false, sweepFlag: true, x: 215.1, y: 109.9 } },
       { type: 'lineTo', props: { relative: false, x: 315, y: 10 } },
     ]);
   });
@@ -193,9 +193,9 @@ describe('SVG path', () => {
     `)).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 315} },
       { type: 'lineTo', props: { relative: false, x: 110, y: 215} },
-      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: 0, sweepFlag: 1, x: 162.55, y: 162.45 } },
+      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: false, sweepFlag: true, x: 162.55, y: 162.45 } },
       { type: 'lineTo', props: { relative: false, x: 172.55, y: 152.45 } },
-      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: 0, sweepFlag: 1, x: 215.1, y: 109.9 } },
+      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: false, sweepFlag: true, x: 215.1, y: 109.9 } },
       { type: 'lineTo', props: { relative: false, x: 315, y: 10 } },
     ]);
   });
