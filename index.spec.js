@@ -135,6 +135,42 @@ describe('SVG path', () => {
     ]);
   });
 
+  it('contains A', () => {
+    expect(parse(`
+      M10 315
+      L 110 215
+      A 30 50 0 0 1 162.55 162.45
+      L 172.55 152.45
+      A 30 50 -45 0 1 215.1 109.9
+      L 315 10
+    `)).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 315} },
+      { type: 'lineTo', props: { relative: false, x: 110, y: 215} },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: 0, sweepFlag: 1, x: 162.55, y: 162.45 } },
+      { type: 'lineTo', props: { relative: false, x: 172.55, y: 152.45 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: 0, sweepFlag: 1, x: 215.1, y: 109.9 } },
+      { type: 'lineTo', props: { relative: false, x: 315, y: 10 } },
+    ]);
+  });
+
+  it('contains a', () => {
+    expect(parse(`
+      M10 315
+      L 110 215
+      a 30 50 0 0 1 162.55 162.45
+      L 172.55 152.45
+      a 30 50 -45 0 1 215.1 109.9
+      L 315 10
+    `)).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 315} },
+      { type: 'lineTo', props: { relative: false, x: 110, y: 215} },
+      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: 0, largeArcFlag: 0, sweepFlag: 1, x: 162.55, y: 162.45 } },
+      { type: 'lineTo', props: { relative: false, x: 172.55, y: 152.45 } },
+      { type: 'arc', props: { relative: true, rx: 30, ry: 50, xAxisRotation: -45, largeArcFlag: 0, sweepFlag: 1, x: 215.1, y: 109.9 } },
+      { type: 'lineTo', props: { relative: false, x: 315, y: 10 } },
+    ]);
+  });
+
   it('contains Z', () => {
     expect(parse('M0 0 Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },

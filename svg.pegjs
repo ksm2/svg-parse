@@ -23,7 +23,7 @@ SVGPath
   }
 
 LineCommand
-  = MoveTo / CurveTo / SmoothTo / QuadraticTo / LineTo / TangentTo / Horizontal / Vertical
+  = MoveTo / CurveTo / SmoothTo / QuadraticTo / LineTo / TangentTo / Horizontal / Vertical / Arc
 
 MoveTo
   = _ op:("M" / "m") _ x:Number _ y:Number {
@@ -63,6 +63,11 @@ Horizontal
 Vertical
   = _ op:("V" / "v") _ y:Number {
     return operate("vertical", op, { y });
+  }
+
+Arc
+  = _ op:("A" / "a") _ rx:Number _ ry:Number _ xAxisRotation:Number _ largeArcFlag:Number _ sweepFlag:Number _ x:Number _ y:Number {
+    return operate("arc", op, { rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y });
   }
 
 CloseOp
