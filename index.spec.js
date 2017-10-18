@@ -355,7 +355,7 @@ describe('SVG path', () => {
 
   it('contains a concatenated', () => {
     expect(parse(`
-      M10 315
+      M+10+315
       L 110 215
       a 30 50 0 0 1 162.55 162.45 30 50 -45 0 1 215.1 109.9
       L 315 10

@@ -73,7 +73,7 @@ Close
   }
 
 Number "number"
-  = _ "-"? [0-9]+ ("." [0-9]+)? {
+  = _ Sign? [0-9]+ ("." [0-9]+)? {
     return parseFloat(text());
   }
 
@@ -86,6 +86,9 @@ Comma "comma"
   = _ ","? _ {
     return '';
   }
+
+Sign "sign"
+  = "+" / "-"
 
 _ "whitespace"
   = [ \t\n\r]* {
