@@ -26,3 +26,9 @@ The result will be:
   { type: 'horizontal', props: { relative: true, x: 10 } },
   { type: 'close', props: null } ]
 ```
+
+## Changelog
+
+Please take a look at changes in the [CHANGELOG.md].
+
+[CHANGELOG.md]: https://github.com/ksm2/svg-parse/blob/master/CHANGELOG.md
