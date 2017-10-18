@@ -12,6 +12,7 @@ export interface OperatorMap {
     tangentTo: XYRelative
     horizontal: XRelative
     vertical: YRelative
+    arc: Arc
     close: null
 }
 
@@ -45,6 +46,17 @@ export interface YRelative extends Relative {
     y: number
 }
 
+export interface Arc extends XYRelative {
+  rx: number
+  ry: number
+  xAxisRotation: number
+  largeArcFlag: boolean
+  sweepFlag: boolean
+}
+
+/**
+ * Location object used for SyntaxErrors.
+ */
 export interface ErrorLocation {
     offset: number
     line: number
@@ -52,14 +64,34 @@ export interface ErrorLocation {
 }
 
 /**
+ * Options to handle during parsing.
+ */
+export interface ParseOptions {
+  generalize: boolean
+}
+
+/**
  * Parses an SVG path and creates an array of commands out of it.
  *
  * @param {string} svgPath The SVG path to parse.
- * @return {Command[]} The parsed SVG path.
+ * @param [options] {Partial<ParseOptions>} Options to handle during parsing.
+ * @return {Command<any>[]} The parsed SVG path.
  * @throws SyntaxError If the parsing fails.
  */
-export function parse(svgPath: string): Command[]
+export function parse(svgPath: string, options?: Partial<ParseOptions>): Command<any>[]
 
+/**
+ * Generalizes a parsed SVG path and limits it to moveTo, lineTo, curveTo, and arc commands.
+ *
+ * @param {Command<any>[]} paths The SVG path to generalize.
+ * @return {Command<'moveTo' | 'lineTo' | 'curveTo' | 'arc'>[]} The generalized SVG path.
+ * @throws SyntaxError If the parsing fails.
+ */
+export function generalize(paths: Command<any>[]): Command<'moveTo' | 'lineTo' | 'curveTo' | 'arc'>[]
+
+/**
+ * Error thrown if parsing fails.
+ */
 export class SyntaxError extends Error {
     readonly expected: Array<{ type: string, description: string }>
     readonly found: string
