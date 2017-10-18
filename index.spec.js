@@ -1,9 +1,9 @@
 const { expect } = require('chai');
-const { parse } = require('./index');
+const { parse, generalize } = require('./index');
 
-describe('SVG path', () => {
+describe('parse', () => {
 
-  it('contains M as single', () => {
+  it('understands SVG paths with M as single-parametered commands', () => {
     expect(parse('M0 0')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
     ]);
@@ -24,7 +24,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains M concatenated', () => {
+  it('understands SVG paths with M concatenated commands', () => {
     expect(parse('M0 0 12 13 14 15Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 13 } },
@@ -33,7 +33,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains m as single', () => {
+  it('understands SVG paths with m as single-parametered commands', () => {
     expect(parse('m0 0')).eql([
       { type: 'moveTo', props: { relative: true, x: 0, y: 0 } },
     ]);
@@ -42,7 +42,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains m concatenated', () => {
+  it('understands SVG paths with m concatenated commands', () => {
     expect(parse('m0 0 12 13 14 15Z')).eql([
       { type: 'moveTo', props: { relative: true, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: true, x: 12, y: 13 } },
@@ -51,14 +51,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains L as single', () => {
+  it('understands SVG paths with L as single-parametered commands', () => {
     expect(parse('M0 0 L12 14')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 14 } },
     ]);
   });
 
-  it('contains L concatenated', () => {
+  it('understands SVG paths with L concatenated commands', () => {
     expect(parse('M0 0 L12 14 13 15')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 14 } },
@@ -66,14 +66,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains l as single', () => {
+  it('understands SVG paths with l as single-parametered commands', () => {
     expect(parse('M0 0 l12 14')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: true, x: 12, y: 14 } },
     ]);
   });
 
-  it('contains l concatenated', () => {
+  it('understands SVG paths with l concatenated commands', () => {
     expect(parse('M0 0 l12 14 13 15')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: true, x: 12, y: 14 } },
@@ -81,14 +81,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains H as single', () => {
+  it('understands SVG paths with H as single-parametered commands', () => {
     expect(parse('M0 0H99')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'horizontal', props: { relative: false, x: 99 } },
     ]);
   });
 
-  it('contains H concatenated', () => {
+  it('understands SVG paths with H concatenated commands', () => {
     expect(parse('M0 0H 99 88 77')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'horizontal', props: { relative: false, x: 99 } },
@@ -97,14 +97,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains h as single', () => {
+  it('understands SVG paths with h as single-parametered commands', () => {
     expect(parse('M0 0h99')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'horizontal', props: { relative: true, x: 99 } },
     ]);
   });
 
-  it('contains h concatenated', () => {
+  it('understands SVG paths with h concatenated commands', () => {
     expect(parse('M0 0h 99 88 77')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'horizontal', props: { relative: true, x: 99 } },
@@ -113,14 +113,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains V as single', () => {
+  it('understands SVG paths with V as single-parametered commands', () => {
     expect(parse('M0 0V99')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'vertical', props: { relative: false, y: 99 } },
     ]);
   });
 
-  it('contains V concatenated', () => {
+  it('understands SVG paths with V concatenated commands', () => {
     expect(parse('M0 0V99 88 77')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'vertical', props: { relative: false, y: 99 } },
@@ -129,14 +129,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains v as single', () => {
+  it('understands SVG paths with v as single-parametered commands', () => {
     expect(parse('M0 0v99')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'vertical', props: { relative: true, y: 99 } },
     ]);
   });
 
-  it('contains v concatenated', () => {
+  it('understands SVG paths with v concatenated commands', () => {
     expect(parse('M0 0v99 88 77')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'vertical', props: { relative: true, y: 99 } },
@@ -145,14 +145,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains C as single', () => {
+  it('understands SVG paths with C as single-parametered commands', () => {
     expect(parse('M10 10 C20 20, 40 20, 50 10')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
       { type: 'curveTo', props: { relative: false, x1: 20, y1: 20, x2: 40, y2: 20, x: 50, y: 10 } },
     ]);
   });
 
-  it('contains C concatenated', () => {
+  it('understands SVG paths with C concatenated commands', () => {
     expect(parse('M10 10 C20 20, 40 20, 50 10 60 60, 20 40, 10 50')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
       { type: 'curveTo', props: { relative: false, x1: 20, y1: 20, x2: 40, y2: 20, x: 50, y: 10 } },
@@ -160,7 +160,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains c as single', () => {
+  it('understands SVG paths with c as single-parametered commands', () => {
     expect(parse('M10 10 c20 20 40 20 50 10')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
       { type: 'curveTo', props: { relative: true, x1: 20, y1: 20, x2: 40, y2: 20, x: 50, y: 10 } },
@@ -171,7 +171,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains c concatenated', () => {
+  it('understands SVG paths with c concatenated commands', () => {
     expect(parse('M10 10 c20 20, 40 20, 50 10 60 60, 20 40, 10 50')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
       { type: 'curveTo', props: { relative: true, x1: 20, y1: 20, x2: 40, y2: 20, x: 50, y: 10 } },
@@ -179,7 +179,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains S as single', () => {
+  it('understands SVG paths with S as single-parametered commands', () => {
     expect(parse('M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
@@ -187,7 +187,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains S concatenated', () => {
+  it('understands SVG paths with S concatenated commands', () => {
     expect(parse('M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80 180 180, 200 99')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
@@ -196,7 +196,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains s as single', () => {
+  it('understands SVG paths with s as single-parametered commands', () => {
     expect(parse('M10 80 C 40 10 65 10 95 80 s 150 150 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
@@ -209,7 +209,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains s concatenated', () => {
+  it('understands SVG paths with s concatenated commands', () => {
     expect(parse('M10 80 C 40 10, 65 10, 95 80 s 150 150, 180 80 180 180, 200 99')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: 10, x2: 65, y2: 10, x: 95, y: 80 } },
@@ -218,14 +218,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains Q as single', () => {
+  it('understands SVG paths with Q as single-parametered commands', () => {
     expect(parse('M10 80 Q 95 10, 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
     ]);
   });
 
-  it('contains Q concatenated', () => {
+  it('understands SVG paths with Q concatenated commands', () => {
     expect(parse('M10 80 Q 95 10, 180 80 95 10, 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -233,14 +233,14 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains q as single', () => {
+  it('understands SVG paths with q as single-parametered commands', () => {
     expect(parse('M10 80 q 95 10, 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: true, x1: 95, y1: 10, x: 180, y: 80 } },
     ]);
   });
 
-  it('contains q concatenated', () => {
+  it('understands SVG paths with q concatenated commands', () => {
     expect(parse('M10 80 q 95 10, 180 80 95 10, 180 80')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: true, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -248,7 +248,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains T as single', () => {
+  it('understands SVG paths with T as single-parametered commands', () => {
     expect(parse('M10 80 Q 95 10 180 80 T12 14')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -261,7 +261,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains T concatenated', () => {
+  it('understands SVG paths with T concatenated commands', () => {
     expect(parse('M10 80 Q 95 10 180 80 T12 14 13 15')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -270,7 +270,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains t as single', () => {
+  it('understands SVG paths with t as single-parametered commands', () => {
     expect(parse('M10 80 Q 95 10, 180 80 t12 14')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -278,7 +278,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains t concatenated', () => {
+  it('understands SVG paths with t concatenated commands', () => {
     expect(parse('M10 80 Q 95 10 180 80 t12 14 13 15')).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 80 } },
       { type: 'quadraticTo', props: { relative: false, x1: 95, y1: 10, x: 180, y: 80 } },
@@ -287,7 +287,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains A as single', () => {
+  it('understands SVG paths with A as single-parametered commands', () => {
     expect(parse(`
       M10 315
       L 110 215
@@ -320,7 +320,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains A concatenated', () => {
+  it('understands SVG paths with A concatenated commands', () => {
     expect(parse(`
       M10 315
       L 110 215
@@ -335,7 +335,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains a as single', () => {
+  it('understands SVG paths with a as single-parametered commands', () => {
     expect(parse(`
       M10 315
       L 110 215
@@ -353,7 +353,7 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains a concatenated', () => {
+  it('understands SVG paths with a concatenated commands', () => {
     expect(parse(`
       M+10+315
       L 110 215
@@ -368,17 +368,77 @@ describe('SVG path', () => {
     ]);
   });
 
-  it('contains Z as single', () => {
+  it('understands SVG paths with Z close path commands', () => {
     expect(parse('M0 0 Z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'close', props: null },
     ]);
   });
 
-  it('contains z as single', () => {
+  it('understands SVG paths with z close path commands', () => {
     expect(parse('M0 0 z')).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'close', props: null },
+    ]);
+  });
+
+});
+
+
+describe('generalize', () => {
+
+  it('makes "horizontal" and "vertical" to "lineTo"', () => {
+    expect(generalize(parse('m0 0 h12 v21'))).eql([
+      { type: 'moveTo', props: { relative: true, x: 0, y: 0 } },
+      { type: 'lineTo', props: { relative: true, x: 12, y: 0 } },
+      { type: 'lineTo', props: { relative: true, x: 0, y: 21 } },
+    ]);
+    expect(generalize(parse('M0 0 H12 V21'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 0, y: 21 } },
+    ]);
+    expect(parse('M0 0 H12 V21', { generalize: true })).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 0, y: 21 } },
+    ]);
+  });
+
+  it('makes "smoothTo" to "curveTo"', () => {
+    expect(generalize(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 20, y2: 10, x: 30, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 40, y1: -10, x2: 50, y2: -10, x: 60, y: 0 } },
+    ]);
+    expect(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0', { generalize: true })).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 20, y2: 10, x: 30, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 40, y1: -10, x2: 50, y2: -10, x: 60, y: 0 } },
+    ]);
+  });
+
+  it('makes "quadraticTo" to "curveTo"', () => {
+    expect(generalize(parse('M0 0 Q12 21 42 1337'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 12, y1: 21, x2: 12, y2: 21, x: 42, y: 1337 } },
+    ]);
+    expect(parse('M0 0 Q12 21 42 1337', { generalize: true })).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 12, y1: 21, x2: 12, y2: 21, x: 42, y: 1337 } },
+    ]);
+  });
+
+  it('makes "tangentTo" to "curveTo"', () => {
+    expect(generalize(parse('M0 0 Q10 10 20 0 T40 0'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 10, y2: 10, x: 20, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 30, y1: -10, x2: 30, y2: -10, x: 40, y: 0 } },
+    ]);
+    expect(parse('M0 0 Q10 10 20 0 T40 0', { generalize: true })).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 10, y2: 10, x: 20, y: 0 } },
+      { type: 'curveTo', props: { relative: false, x1: 30, y1: -10, x2: 30, y2: -10, x: 40, y: 0 } },
     ]);
   });
 

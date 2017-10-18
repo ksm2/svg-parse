@@ -4,7 +4,7 @@
   "description": "Parses SVG paths to a consumable object and JSON",
   "main": "index.js",
   "scripts": {
-    "build": "pegjs -o index.js svg.pegjs",
+    "build": "pegjs -o parse.js svg.pegjs",
     "test": "mocha index.spec.js"
   },
   "repository": {
