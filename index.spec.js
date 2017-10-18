@@ -388,62 +388,72 @@ describe('parse', () => {
 describe('generalize', () => {
 
   it('makes "horizontal" and "vertical" to "lineTo"', () => {
-    expect(generalize(parse('m0 0 h12 v21'))).eql([
+    expect(generalize(parse('m0 0 h12 v21z'))).eql([
       { type: 'moveTo', props: { relative: true, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: true, x: 12, y: 0 } },
       { type: 'lineTo', props: { relative: true, x: 0, y: 21 } },
+      { type: 'close', props: null },
     ]);
-    expect(generalize(parse('M0 0 H12 V21'))).eql([
+    expect(generalize(parse('M0 0 H12 V21z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
+      { type: 'close', props: null },
     ]);
-    expect(generalize(parse('M10 10 H12 V21'))).eql([
+    expect(generalize(parse('M10 10 H12 V21z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 10 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
+      { type: 'close', props: null },
     ]);
-    expect(parse('M0 0 H12 V21', { generalize: true })).eql([
+    expect(parse('M0 0 H12 V21z', { generalize: true })).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "smoothTo" to "curveTo"', () => {
-    expect(generalize(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0'))).eql([
+    expect(generalize(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 20, y2: 10, x: 30, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: -10, x2: 50, y2: -10, x: 60, y: 0 } },
+      { type: 'close', props: null },
     ]);
-    expect(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0', { generalize: true })).eql([
+    expect(parse('M0 0 C10 10, 20 10, 30 0 S50 -10, 60 0z', { generalize: true })).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 20, y2: 10, x: 30, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 40, y1: -10, x2: 50, y2: -10, x: 60, y: 0 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "quadraticTo" to "curveTo"', () => {
-    expect(generalize(parse('M0 0 Q12 21 42 1337'))).eql([
+    expect(generalize(parse('M0 0 Q12 21 42 1337z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 12, y1: 21, x2: 12, y2: 21, x: 42, y: 1337 } },
+      { type: 'close', props: null },
     ]);
-    expect(parse('M0 0 Q12 21 42 1337', { generalize: true })).eql([
+    expect(parse('M0 0 Q12 21 42 1337z', { generalize: true })).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 12, y1: 21, x2: 12, y2: 21, x: 42, y: 1337 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "tangentTo" to "curveTo"', () => {
-    expect(generalize(parse('M0 0 Q10 10 20 0 T40 0'))).eql([
+    expect(generalize(parse('M0 0 Q10 10 20 0 T40 0z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 10, y2: 10, x: 20, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 30, y1: -10, x2: 30, y2: -10, x: 40, y: 0 } },
+      { type: 'close', props: null },
     ]);
-    expect(parse('M0 0 Q10 10 20 0 T40 0', { generalize: true })).eql([
+    expect(parse('M0 0 Q10 10 20 0 T40 0z', { generalize: true })).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 10, y2: 10, x: 20, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 30, y1: -10, x2: 30, y2: -10, x: 40, y: 0 } },
+      { type: 'close', props: null },
     ]);
   });
 
@@ -453,38 +463,43 @@ describe('generalize', () => {
 describe('makeAbsolute', () => {
 
   it('makes "lineTo" absolute', () => {
-    expect(makeAbsolute(parse('m0 0 l10 20 h12 v22'))).eql([
+    expect(makeAbsolute(parse('m0 0 l10 20 h12 v22z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 10, y: 20 } },
       { type: 'horizontal', props: { relative: false, x: 22 } },
       { type: 'vertical', props: { relative: false, y: 42 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "curveTo" and "smoothTo" absolute', () => {
-    expect(makeAbsolute(parse('m100 100 c50 100 50 100 100 0 s50 -100 100 0'))).eql([
+    expect(makeAbsolute(parse('m100 100 c50 100 50 100 100 0 s50 -100 100 0z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
       { type: 'curveTo', props: { relative: false, x1: 150, y1: 200, x2: 150, y2: 200, x: 200, y: 100 } },
       { type: 'smoothTo', props: { relative: false, x2: 250, y2: 0, x: 300, y: 100 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "quadraticTo" and "tangentTo" absolute', () => {
-    expect(makeAbsolute(parse('m100 100 q50 100 100 0 t100 0'))).eql([
+    expect(makeAbsolute(parse('m100 100 q50 100 100 0 t100 0z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
       { type: 'quadraticTo', props: { relative: false, x1: 150, y1: 200, x: 200, y: 100 } },
       { type: 'tangentTo', props: { relative: false, x: 300, y: 100 } },
+      { type: 'close', props: null },
     ]);
   });
 
   it('makes "arc" absolute', () => {
-    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 100 100'))).eql([
+    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 100 100z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
       { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 45, largeArcFlag: false, sweepFlag: true, x: 200, y: 200 } },
+      { type: 'close', props: null },
     ]);
-    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 200 100'))).eql([
+    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 200 100z'))).eql([
       { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
       { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 45, largeArcFlag: false, sweepFlag: true, x: 300, y: 200 } },
+      { type: 'close', props: null },
     ]);
   });
 

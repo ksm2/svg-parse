@@ -13,6 +13,10 @@ function generalize(paths) {
   return paths.map(({ type, props }, index) => {
     const last = index > 0 ? paths[index - 1].props : {};
 
+    if (props == null) {
+      return { type, props };
+    }
+
     if (props.relative) {
       if ('x' in props) {
         curX = curX + props.x;
@@ -67,6 +71,10 @@ function makeAbsolute(paths) {
   let x = 0;
   let y = 0;
   return paths.map(({ type, props }, index) => {
+    if (props == null) {
+      return { type, props };
+    }
+
     if (!props.relative) {
       'x' in props && (x = props.x);
       'y' in props && (y = props.y);
