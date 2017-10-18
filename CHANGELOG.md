@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.2.1] - 2017-10-18
 ### Changed
 * Allow multiple close path commands
+* Allow concatenating of commands
 
 ## [1.2.0] - 2017-10-18
 ### Added
