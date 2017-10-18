@@ -35,6 +35,48 @@ function generalize(paths) {
   });
 }
 
+/**
+ * Makes all commands in an SVG path absolute.
+ *
+ * @param {Command<any>[]} paths The SVG path to make its commands absolute.
+ * @return {Command<any>[]} The SVG path with absolute commands.
+ */
+function makeAbsolute(paths) {
+  let x = 0;
+  let y = 0;
+  return paths.map(({ type, props }, index) => {
+    if (!props.relative) {
+      'x' in props && (x = props.x);
+      'y' in props && (y = props.y);
+      return { type, props };
+    }
+
+    props.relative = false;
+
+    if ('x1' in props) {
+      props.x1 = x + props.x1;
+    }
+    if ('y1' in props) {
+      props.y1 = y + props.y1;
+    }
+
+    if ('x2' in props) {
+      props.x2 = x + props.x2;
+    }
+    if ('y2' in props) {
+      props.y2 = y + props.y2;
+    }
+
+    if ('x' in props) {
+      x = props.x = x + props.x;
+    }
+    if ('y' in props) {
+      y = props.y = y + props.y;
+    }
+
+    return { type, props };
+  });
+}
 
 /**
  * Parses an SVG path and creates an array of commands out of it.
@@ -45,14 +87,18 @@ function generalize(paths) {
  * @throws SyntaxError If the parsing fails.
  */
 function parseWrapper(svgPath, options = {}) {
-  const result = parse(svgPath);
+  let result = parse(svgPath);
+  if (options.makeAbsolute) {
+    result = makeAbsolute(result);
+  }
   if (options.generalize) {
-    return generalize(result);
+    result = generalize(result);
   }
 
   return result;
 }
 
 exports.parse = parseWrapper;
+exports.makeAbsolute = makeAbsolute;
 exports.generalize = generalize;
 exports.SyntaxError = SyntaxError;

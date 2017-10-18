@@ -68,6 +68,7 @@ export interface ErrorLocation {
  */
 export interface ParseOptions {
   generalize: boolean
+  makeAbsolute: boolean
 }
 
 /**
@@ -88,6 +89,14 @@ export function parse(svgPath: string, options?: Partial<ParseOptions>): Command
  * @throws SyntaxError If the parsing fails.
  */
 export function generalize(paths: Command<any>[]): Command<'moveTo' | 'lineTo' | 'curveTo' | 'arc'>[]
+
+/**
+ * Makes all commands in an SVG path absolute.
+ *
+ * @param {Command<any>[]} paths The SVG path to make its commands absolute.
+ * @return {Command<any>[]} The SVG path with absolute commands.
+ */
+export function makeAbsolute(paths: Command<any>[]): Command<any>[]
 
 /**
  * Error thrown if parsing fails.

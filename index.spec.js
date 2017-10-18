@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { parse, generalize } = require('./index');
+const { parse, generalize, makeAbsolute } = require('./index');
 
 describe('parse', () => {
 
@@ -439,6 +439,36 @@ describe('generalize', () => {
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 10, y1: 10, x2: 10, y2: 10, x: 20, y: 0 } },
       { type: 'curveTo', props: { relative: false, x1: 30, y1: -10, x2: 30, y2: -10, x: 40, y: 0 } },
+    ]);
+  });
+
+});
+
+
+describe('makeAbsolute', () => {
+
+  it('makes "lineTo" absolute', () => {
+    expect(makeAbsolute(parse('m0 0 l10 20 h12 v22'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
+      { type: 'lineTo', props: { relative: false, x: 10, y: 20 } },
+      { type: 'horizontal', props: { relative: false, x: 22 } },
+      { type: 'vertical', props: { relative: false, y: 42 } },
+    ]);
+  });
+
+  it('makes "curveTo" and "smoothTo" absolute', () => {
+    expect(makeAbsolute(parse('m100 100 c50 100 50 100 100 0 s50 -100 100 0'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
+      { type: 'curveTo', props: { relative: false, x1: 150, y1: 200, x2: 150, y2: 200, x: 200, y: 100 } },
+      { type: 'smoothTo', props: { relative: false, x2: 250, y2: 0, x: 300, y: 100 } },
+    ]);
+  });
+
+  it('makes "quadraticTo" and "tangentTo" absolute', () => {
+    expect(makeAbsolute(parse('m100 100 q50 100 100 0 t100 0'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
+      { type: 'quadraticTo', props: { relative: false, x1: 150, y1: 200, x: 200, y: 100 } },
+      { type: 'tangentTo', props: { relative: false, x: 300, y: 100 } },
     ]);
   });
 
