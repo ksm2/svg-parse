@@ -396,12 +396,17 @@ describe('generalize', () => {
     expect(generalize(parse('M0 0 H12 V21'))).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
-      { type: 'lineTo', props: { relative: false, x: 0, y: 21 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
+    ]);
+    expect(generalize(parse('M10 10 H12 V21'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 10, y: 10 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 10 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
     ]);
     expect(parse('M0 0 H12 V21', { generalize: true })).eql([
       { type: 'moveTo', props: { relative: false, x: 0, y: 0 } },
       { type: 'lineTo', props: { relative: false, x: 12, y: 0 } },
-      { type: 'lineTo', props: { relative: false, x: 0, y: 21 } },
+      { type: 'lineTo', props: { relative: false, x: 12, y: 21 } },
     ]);
   });
 
@@ -469,6 +474,17 @@ describe('makeAbsolute', () => {
       { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
       { type: 'quadraticTo', props: { relative: false, x1: 150, y1: 200, x: 200, y: 100 } },
       { type: 'tangentTo', props: { relative: false, x: 300, y: 100 } },
+    ]);
+  });
+
+  it('makes "arc" absolute', () => {
+    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 100 100'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 45, largeArcFlag: false, sweepFlag: true, x: 200, y: 200 } },
+    ]);
+    expect(makeAbsolute(parse('m100 100 a30 50 45 0 1 200 100'))).eql([
+      { type: 'moveTo', props: { relative: false, x: 100, y: 100 } },
+      { type: 'arc', props: { relative: false, rx: 30, ry: 50, xAxisRotation: 45, largeArcFlag: false, sweepFlag: true, x: 300, y: 200 } },
     ]);
   });
 

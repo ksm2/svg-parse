@@ -8,15 +8,38 @@ const { parse, SyntaxError } = require('./parse');
  * @throws SyntaxError If the parsing fails.
  */
 function generalize(paths) {
+  let curX = 0;
+  let curY = 0;
   return paths.map(({ type, props }, index) => {
+    const last = index > 0 ? paths[index - 1].props : {};
+
+    if (props.relative) {
+      if ('x' in props) {
+        curX = curX + props.x;
+      }
+      if ('y' in props) {
+        curY = curY + props.y;
+      }
+    } else {
+      if ('x' in props) {
+        curX = props.x;
+      }
+      if ('y' in props) {
+        curY = props.y;
+      }
+    }
+
     if (type === 'horizontal') {
-      return { type: 'lineTo', props: { relative: props.relative, x: props.x, y: 0 } };
+      const x = props.x;
+      const y = props.relative ? 0 : curY;
+      return { type: 'lineTo', props: Object.assign({}, props, { x, y }) };
     }
     if (type === 'vertical') {
-      return { type: 'lineTo', props: { relative: props.relative, y: props.y, x: 0 } };
+      const x = props.relative ? 0 : curX;
+      const y = props.y;
+      return { type: 'lineTo', props: Object.assign({}, props, { x, y }) };
     }
     if (type === 'smoothTo') {
-      const last = paths[index - 1].props;
       const x1 = 2 * last.x - last.x2;
       const y1 = 2 * last.y - last.y2;
       return { type: 'curveTo', props: Object.assign({}, props, { x1, y1 }) };
@@ -25,7 +48,6 @@ function generalize(paths) {
       return { type: 'curveTo', props: Object.assign({}, props, { x2: props.x1, y2: props.y1 }) };
     }
     if (type === 'tangentTo') {
-      const last = paths[index - 1].props;
       const x1 = 2 * last.x - last.x1;
       const y1 = 2 * last.y - last.y1;
       return { type: 'curveTo', props: Object.assign({}, props, { x1, y1, x2: x1, y2: y1 }) };
