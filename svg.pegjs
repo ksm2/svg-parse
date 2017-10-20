@@ -73,9 +73,28 @@ Close
   }
 
 Number "number"
-  = _ Sign? [0-9]+ ("." [0-9]+)? {
+  = _ it:(FloatingPointConstant / IntegerConstant) {
+    return it;
+  }
+
+FloatingPointConstant
+  = Sign? ((FractionalConstant Exponent?) / (DigitSequence Exponent)) {
     return parseFloat(text());
   }
+
+FractionalConstant
+  = (DigitSequence? "." DigitSequence) / (DigitSequence ".")
+
+Exponent
+  = ("e" / "E") Sign? DigitSequence
+
+IntegerConstant
+  = Sign? DigitSequence {
+    return parseInt(text(), 10);
+  }
+
+DigitSequence
+  = [0-9]+
 
 Boolean "boolean"
   = _ [01] {

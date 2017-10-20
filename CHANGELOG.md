@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.3.2] - 2017-10-20
+### Changed
+* Fix parsing of numbers, accept exponents
+
 ## [1.3.1] - 2017-10-18
 ### Changed
 * Fix bug with close path commands in makeAbsolute and generalize
@@ -35,7 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * Support basic moveTo, lineTo, and close commands
 
-[Unreleased]: https://github.com/ksm2/svg-parse/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/ksm2/svg-parse/compare/v1.3.2...HEAD
+[1.3.2]: https://github.com/ksm2/svg-parse/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/ksm2/svg-parse/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ksm2/svg-parse/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/ksm2/svg-parse/compare/v1.2.0...v1.2.1

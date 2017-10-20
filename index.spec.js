@@ -13,6 +13,12 @@ describe('parse', () => {
     expect(parse('M-23 -42')).eql([
       { type: 'moveTo', props: { relative: false, x: -23, y: -42 } },
     ]);
+    expect(parse('M-23e+4 -42e-6')).eql([
+      { type: 'moveTo', props: { relative: false, x: -23e+4, y: -42e-6 } },
+    ]);
+    expect(parse('M-23E+4 -42E-6')).eql([
+      { type: 'moveTo', props: { relative: false, x: -23e+4, y: -42e-6 } },
+    ]);
     expect(parse('M-23.23 42.12')).eql([
       { type: 'moveTo', props: { relative: false, x: -23.23, y: 42.12 } },
     ]);
