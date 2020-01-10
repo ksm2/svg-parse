@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pegjs -o parse.js svg.pegjs",
+    "prepack": "npm run build",
     "test": "mocha index.spec.js"
   },
   "repository": {
