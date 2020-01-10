@@ -24,9 +24,9 @@
   },
   "homepage": "https://github.com/ksm2/svg-parse#readme",
   "devDependencies": {
-    "@types/node": "^8.0.40",
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
+    "@types/node": "^13.1.6",
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0",
     "pegjs": "^0.10.0"
   }
 }
